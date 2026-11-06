@@ -134,7 +134,8 @@ jobs:
           EXPECTED_FINGERPRINT: 'aaa47474e78934d2bf52bff6ecd5aabef55566b56b7990a981025d6c9b31557e'
         run: |
           set -euo pipefail
-          awk '/^## v/{n++} n<=1' CHANGELOG.md > RELEASE_NOTES.md
+          # 只取 CHANGELOG 第一个 "## v" 小节（到下一个 "## v" 之前），不含文件头部说明
+          awk '/^## v/{n++; if (n==2) exit} n==1' CHANGELOG.md > RELEASE_NOTES.md
           if [ ! -s RELEASE_NOTES.md ]; then
             echo "## ${GITHUB_REF_NAME}" > RELEASE_NOTES.md
           fi
