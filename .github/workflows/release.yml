@@ -86,12 +86,14 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -euo pipefail
-          cat > "$GITHUB_WORKSPACE/keystore.properties" <<EOF
-          storeFile=app/release.jks
-          storePassword=$KEYSTORE_PASSWORD
-          keyAlias=$KEY_ALIAS
-          keyPassword=$KEY_PASSWORD
-          EOF
+          # 用 echo 逐行写，避免 heredoc 把 YAML 缩进带进 properties 文件
+          {
+            echo "storeFile=app/release.jks"
+            echo "storePassword=${KEYSTORE_PASSWORD}"
+            echo "keyAlias=${KEY_ALIAS}"
+            echo "keyPassword=${KEY_PASSWORD}"
+          } > "$GITHUB_WORKSPACE/keystore.properties"
+          echo "keystore.properties 已生成（4 行，无缩进）"
 
       - name: Run unit tests
         run: ./gradlew test --no-daemon
