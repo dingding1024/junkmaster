@@ -49,20 +49,29 @@ git push -u origin main
 | Name | Value | 从哪里取 |
 |---|---|---|
 | `KEYSTORE_BASE64` | 单行 base64 文本（4716 字符） | 本机 `D:\安卓清扫app\delivery\KEYSTORE_BASE64.txt` **全文**，直接全选复制 |
-| `KEYSTORE_PASSWORD` | keystore 口令 | 本机 `D:\AndroidDev\keystore\PASSWORDS.txt` |
+| `KEYSTORE_PASSWORD` | keystore 口令，**48 个字符单行** | 本机 `D:\安卓清扫app\delivery\KEYSTORE_PASSWORD.txt`（已用 keytool 验过可签，直接全选复制） |
 | `KEY_ALIAS` | `junkmaster` | 固定值 |
 | `KEY_PASSWORD` | 与 `KEYSTORE_PASSWORD` **完全相同** | PKCS12 下 store 口令与 key 口令必须一致 |
 
-三条硬规则：
+四条硬规则：
 
 1. 这 4 个值必须来自本机**同一把** key（`D:\AndroidDev\keystore\junkmaster-release.jks`），**绝不允许在 CI 里另生成**。
 2. `KEYSTORE_BASE64` 是 `base64 -w0` 生成的**单行**文本，粘贴时不要带换行。
-3. 配完之后可以把 `delivery\KEYSTORE_BASE64.txt` 删掉，GitHub 侧是只写不读的。
+3. **口令不要从 `PASSWORDS.txt` 整行复制**——那一行是说明文字 + 口令，整行粘进去必然报 `keystore password was incorrect`。要用的是**该行最后一个冒号之后**的那 48 个字符，也就是 `delivery\KEYSTORE_PASSWORD.txt` 里的内容（已验签通过、不带换行）。
+4. 配完之后可以把 `delivery\KEYSTORE_BASE64.txt` 与 `delivery\KEYSTORE_PASSWORD.txt` 都删掉，GitHub 侧是只写不读的。
+
+> 口令的首尾空白 / CRLF / 引号由 CI 自动清洗（`Write keystore.properties` 步骤），但**值本身必须对**。CI 在跑单测前有一道 `Verify keystore password and alias`，口令不对会在十几秒内失败并打印当前长度（正确 48）与 alias（正确 `junkmaster`），不会白等两分钟。
 
 ### 0.4 先发一个预发布版（当前就是这一步）
 
 > ⚠️ **必须在 §0.3 配完 4 个 Secrets 之后执行**。顺序反了 CI 会在第一步就失败。
-> 万一真忘了：配好 Secrets 后到 Actions → 选中失败的那次 run → 右上 **Re-run all jobs** 即可，不用重打 tag。
+> 只是 Secrets 配错/漏配（**workflow 本身没改**）：到 Actions → 选中失败的那次 run → 右上 **Re-run all jobs** 即可，不用重打 tag。
+> **如果本次改动涉及 `.github/workflows/release.yml`**：必须删掉远程 tag 后重推，因为 Re-run 跑的仍是 tag 指向的那个 commit 里的旧 workflow。
+> ```bash
+> git push origin main
+> git push origin --delete v1.0.5-rc1
+> git push origin v1.0.5-rc1
+> ```
 
 ```bash
 cd /d/安卓清扫app
@@ -152,7 +161,7 @@ git push origin v1.0.5
 | `tag 版本(x) 与 versionName(y) 不一致` | tag 打错，或忘了改 `versionName` | 删 tag 重打 |
 | `CHANGELOG.md 缺少 vX.Y.Z 小节` | 忘了写更新日志 | 补写后重新打 tag |
 | `CI 证书与冻结 key 不一致` | Secrets 里的 keystore 不是本机那一份 | 重新导 `KEYSTORE_BASE64.txt` |
-| `keystore was tampered with` / `password was incorrect` | 口令写错，或 `KEY_PASSWORD` 与 `KEYSTORE_PASSWORD` 不一致 | 两者填同一个值 |
+| `keystore password was incorrect`（或 `keystore was tampered with`） | ① 把 `PASSWORDS.txt` 的**整行说明**当成口令粘进去了；② 值末尾带换行/空格（CI 已自动清洗，仍失败说明值本身错）；③ `KEY_PASSWORD` 与 `KEYSTORE_PASSWORD` 不一致 | 用 `delivery\KEYSTORE_PASSWORD.txt`（48 字符单行）重设这两个 Secret。CI 的 `Verify keystore password and alias` 会提前拦下，报错带当前长度与 alias |
 | 构建卡住 / `Connection timed out` | `gradle.properties` 里混进了本机代理 | 本地已移到机器级配置；若又出现，检查有没有人提交 `systemProp.*proxy*` |
 | APK 装不上 | versionCode 没递增 | 递增后重新发 |
 

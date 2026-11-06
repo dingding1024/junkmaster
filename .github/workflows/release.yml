@@ -84,7 +84,9 @@ jobs:
             echo "::error::缺少 KEYSTORE_BASE64，请先按 docs/RELEASE.md 配置 4 个 Secrets"
             exit 1
           fi
-          echo "$KEYSTORE_BASE64" | base64 -d > "$GITHUB_WORKSPACE/app/release.jks"
+          # 在网页上粘贴 base64 容易带进换行/空格，先清干净再解码
+          printf '%s' "$KEYSTORE_BASE64" | tr -d '\r\n \t' | base64 -d > "$GITHUB_WORKSPACE/app/release.jks"
+          echo "keystore restored: $(stat -c%s "$GITHUB_WORKSPACE/app/release.jks") bytes"
 
       - name: Write keystore.properties
         env:
@@ -93,14 +95,52 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -euo pipefail
-          # 用 echo 逐行写，避免 heredoc 把 YAML 缩进带进 properties 文件
+          # 网页上粘贴 Secret 常带进尾随换行/空格，甚至把整行说明一起复制进来。
+          # Properties 的 value 不会自动裁掉尾随空白，带进来必然「password was incorrect」，
+          # 所以在这里统一清洗：去掉 CR/LF、首尾空白、以及被一起复制进来的成对引号。
+          sanitize() {
+            printf '%s' "$1" | tr -d '\r\n' \
+              | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' \
+                    -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//"
+          }
+          STORE_PW="$(sanitize "${KEYSTORE_PASSWORD:-}")"
+          KEY_PW="$(sanitize "${KEY_PASSWORD:-}")"
+          ALIAS="$(sanitize "${KEY_ALIAS:-}")"
+          if [ -z "$STORE_PW" ] || [ -z "$KEY_PW" ] || [ -z "$ALIAS" ]; then
+            echo "::error::KEYSTORE_PASSWORD / KEY_PASSWORD / KEY_ALIAS 有空值，请先在 Settings → Secrets 配置"
+            exit 1
+          fi
+          # 用 printf 逐行写，避免 heredoc 把 YAML 缩进带进 properties 文件
           {
-            echo "storeFile=app/release.jks"
-            echo "storePassword=${KEYSTORE_PASSWORD}"
-            echo "keyAlias=${KEY_ALIAS}"
-            echo "keyPassword=${KEY_PASSWORD}"
+            printf 'storeFile=app/release.jks\n'
+            printf 'storePassword=%s\n' "$STORE_PW"
+            printf 'keyAlias=%s\n' "$ALIAS"
+            printf 'keyPassword=%s\n' "$KEY_PW"
           } > "$GITHUB_WORKSPACE/keystore.properties"
-          echo "keystore.properties 已生成（4 行，无缩进）"
+          echo "keystore.properties 已生成（4 行，无缩进）；口令长度 ${#STORE_PW}，alias 长度 ${#ALIAS}"
+
+      # 口令错误原本要到 packageRelease 才炸（已跑近 2 分钟、且报错只说 password incorrect）。
+      # 这里提前用 keytool 验一次，十几秒内给出可操作的原因。
+      - name: Verify keystore password and alias
+        run: |
+          set -euo pipefail
+          KS="$GITHUB_WORKSPACE/app/release.jks"
+          PW=$(sed -n 's/^storePassword=//p' "$GITHUB_WORKSPACE/keystore.properties")
+          ALIAS=$(sed -n 's/^keyAlias=//p' "$GITHUB_WORKSPACE/keystore.properties")
+          echo "校验中：keystore $(stat -c%s "$KS") bytes，alias=$ALIAS，口令长度=${#PW}"
+          if ! keytool -list -keystore "$KS" -storetype PKCS12 -storepass "$PW" -alias "$ALIAS" >/dev/null 2>&1; then
+            echo "::error::KEYSTORE_PASSWORD 或 KEY_ALIAS 不正确（当前口令长度=${#PW}，正确口令为 48 个字符；alias 应为 junkmaster）"
+            echo "常见原因："
+            echo "  1) 复制成了 PASSWORDS.txt 的整行文字，而不是那一行里冒号之后的口令；"
+            echo "  2) 值末尾带了换行 / 空格（本步骤已自动清洗，若仍失败说明值本身不对）；"
+            echo "  3) KEYSTORE_PASSWORD 与 KEY_PASSWORD 填的不是同一个值（PKCS12 下两者必须相同）。"
+            echo "请改用 delivery/KEYSTORE_PASSWORD.txt 里的单行内容（48 个字符）重新设置这两个 Secret。"
+            exit 1
+          fi
+          echo "OK：keystore 口令与 alias 校验通过"
+          # 证书指纹是公开信息，打出来便于确认还原的确实是被冻结的那把 key
+          keytool -list -v -keystore "$KS" -storetype PKCS12 -storepass "$PW" \
+            | awk '/SHA256:/{print "keystore cert SHA-256: " $2; exit}'
 
       - name: Run unit tests
         run: ./gradlew test --no-daemon
