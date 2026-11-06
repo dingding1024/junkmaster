@@ -147,6 +147,7 @@ git push origin v1.0.5
 
 | 现象 | 原因 | 处理 |
 |---|---|---|
+| `./gradlew: Permission denied`（exit 126） | 仓库在 **Windows** 上维护，`core.fileMode=false` 时 git 不记录可执行位，`gradlew` 以 `100644` 入库，Linux runner 上就没有 x 位 | 已用 `git update-index --chmod=+x gradlew` 修正为 `100755`；workflow 里另有 `chmod +x gradlew` 兜底。以后新增任何 `.sh` 脚本同样要执行这条 |
 | `缺少 KEYSTORE_BASE64` | Secrets 没配 | 回 §0.3 |
 | `tag 版本(x) 与 versionName(y) 不一致` | tag 打错，或忘了改 `versionName` | 删 tag 重打 |
 | `CHANGELOG.md 缺少 vX.Y.Z 小节` | 忘了写更新日志 | 补写后重新打 tag |
