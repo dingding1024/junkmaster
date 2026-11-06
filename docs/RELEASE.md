@@ -17,7 +17,7 @@
 
 ### 0.2 推送（本地已提交好，只差一个 remote）
 
-在本机 **Git Bash** 里执行，把 `<你的用户名>` 换成你的 GitHub 用户名：
+执行前把 `<你的用户名>` 换成你的 GitHub 用户名（仓库名如果没叫 `junkmaster` 也一起改）：
 
 ```bash
 cd /d/安卓清扫app
@@ -25,17 +25,21 @@ git remote add origin https://github.com/<你的用户名>/junkmaster.git
 git push -u origin main
 ```
 
-首次 push 会弹出登录框。**密码位置要填 Personal Access Token**（GitHub 从 2021 年起不再接受账号密码）：
+**首次 push 的登录**：本机 Git 已配置 `credential.helper=manager`（Git Credential Manager），
+正常会**弹出浏览器窗口**让你登录 GitHub，点 Authorize 就走完，**不需要手动造 token**。
 
-- 生成地址：<https://github.com/settings/tokens> → `Generate new token (classic)`
-- 勾选 **`repo`** 与 **`workflow`** 两个 scope
-- 有效期建议 7 天，推完就可以撤销
+如果没弹窗、或提示输入用户名 / 密码，就退回 PAT 方式：
+
+1. <https://github.com/settings/tokens> → `Generate new token (classic)`
+2. 勾 **`repo`** 与 **`workflow`**
+3. 用户名填你的 GitHub 用户名，**密码位置粘贴 token**（GitHub 从 2021 年起不接受账号密码）
+4. 有效期建议 7 天，推完即可撤销
 
 > 想用自己的名字作为提交作者？push 前先执行这两条（可选，不改也能推）：
 > ```bash
 > git config user.name "你的名字"
 > git config user.email "你的GitHub邮箱"
-> git commit --amend --reset-author --no-edit
+> git commit --amend --reset-author --no-edit   # 只改作者信息，不改内容
 > ```
 
 ### 0.3 配置 4 个 Secrets（**没配就跑 CI 会直接失败**）
@@ -56,6 +60,9 @@ git push -u origin main
 3. 配完之后可以把 `delivery\KEYSTORE_BASE64.txt` 删掉，GitHub 侧是只写不读的。
 
 ### 0.4 先发一个预发布版（当前就是这一步）
+
+> ⚠️ **必须在 §0.3 配完 4 个 Secrets 之后执行**。顺序反了 CI 会在第一步就失败。
+> 万一真忘了：配好 Secrets 后到 Actions → 选中失败的那次 run → 右上 **Re-run all jobs** 即可，不用重打 tag。
 
 ```bash
 cd /d/安卓清扫app
