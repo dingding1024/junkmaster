@@ -1,0 +1,31 @@
+安卓垃圾清扫大师 (JunkMaster)
+Copyright 2026 The JunkMaster Authors
+
+本产品的自有源代码以 Apache License 2.0 授权，详见 LICENSE。
+
+--------------------------------------------------------------------------------
+第三方归属（Third-party attributions）
+--------------------------------------------------------------------------------
+
+1) Shizuku-API 13.1.5
+   Group/Artifact: dev.rikka.shizuku:api / :provider
+   License: MIT
+   Copyright (c) 2021 RikkaW
+   用途：通过 bindUserService + AIDL 以 shell UID (2000) 执行深度清理。
+   说明：仅作为编译时/运行时依赖集成，未修改其源码。
+
+2) Shizuku Manager (v13.6.0)
+   License: Apache-2.0 / 其自有许可（以官方仓库为准）
+   用途：运行时由用户自行安装并启动服务，作为 ADB/无线调试授权宿主。
+   说明：本仓库 **不分发** Shizuku Manager APK，仅文档引导用户从官方渠道安装。
+
+3) AndroidX / Jetpack Compose / Kotlin
+   License: Apache License 2.0
+   组件：core-ktx、activity-compose、lifecycle-*、navigation-compose、
+        datastore-preferences、compose-ui / material3 / foundation、
+        kotlinx-coroutines、Kotlin 标准库。
+   说明：仅作为库依赖，未分发其源码。
+
+--------------------------------------------------------------------------------
+本应用不包含任何广告、统计、崩溃上报或遥测 SDK；不声明 INTERNET 权限；
+删除日志仅写入本应用私有目录 files/clean_logs/*.jsonl，不记录文件内容、不上传。

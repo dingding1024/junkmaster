@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 硬性约束：App 显示名必须是「安卓垃圾清扫大师」，英文代号 JunkMaster -->
+    <string name="app_name">安卓垃圾清扫大师</string>
+    <string name="app_name_short">清扫大师</string>
+
+    <!-- 全应用常驻：删除不可恢复、无回收站 -->
+    <string name="irreversible_banner">删除不可恢复 · 本应用无回收站</string>
+    <string name="irreversible_detail">删除不可恢复，无回收站：Android 没有系统回收站，被删文件不会进入回收站，也不提供撤销或回滚。</string>
+
+    <!-- 通用 -->
+    <string name="common_back">返回</string>
+    <string name="common_confirm">确认</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_close">关闭</string>
+    <string name="common_know">知道了</string>
+    <string name="common_size">大小</string>
+    <string name="common_path">路径</string>
+    <string name="common_bytes">字节</string>
+    <string name="common_readonly">只读</string>
+
+    <!-- 首页 -->
+    <string name="home_title">安卓垃圾清扫大师</string>
+    <string name="home_capacity_title">可用空间</string>
+    <string name="home_capacity_format">可用 %1$s / 共 %2$s</string>
+    <string name="home_l1_button">扫描清理手机</string>
+    <string name="home_l1_button_hint">先只读扫描，你再逐项确认后才会删除</string>
+    <string name="home_scan_button">开始只读扫描</string>
+    <string name="home_shizuku_card_title">Shizuku 深度清理</string>
+    <string name="home_shizuku_status_prefix">状态：</string>
+    <string name="home_entries_title">清理范围</string>
+    <string name="home_entry_corpse">卸载残留</string>
+    <string name="home_entry_temp">临时文件 / 日志 / 缩略图 / 空目录</string>
+    <string name="home_entry_chat">聊天应用附件缓存</string>
+    <string name="home_entry_download">Download 大文件 / 旧 APK（仅报告）</string>
+    <string name="home_entry_large">超过 30 天的大文件索引（仅报告，给出完整路径）</string>
+    <string name="home_nav_settings">设置与白名单</string>
+    <string name="home_nav_about">关于与许可</string>
+    <string name="home_nav_shizuku">Shizuku 设置</string>
+    <string name="home_readonly_hint">扫描为只读，绝不删除任何文件</string>
+    <string name="home_mode_hint">不开 Shizuku 也能一键清理基础安全垃圾；开启并绑定 Shizuku 后解锁应用缓存等深度清理</string>
+    <string name="home_shizuku_unlock_hint">开启 Shizuku 后可获得类似 SD Maid 的深度清理权限：应用缓存、卸载残留、聊天附件缓存；深度删除仍需逐项确认</string>
+    <string name="home_shizuku_not_running">深度服务未就绪：基础清扫不受影响；应用缓存等深度清理暂不可用。可在 Shizuku 设置里查看具体原因或重新绑定。</string>
+    <string name="home_shizuku_last_reason">上次绑定：%1$s</string>
+    <string name="home_open_shizuku">打开 Shizuku 启动服务</string>
+    <string name="home_open_shizuku_failed">未找到 Shizuku，请先安装并启动服务</string>
+    <string name="home_permission_title">基础清扫权限（与 Shizuku 无关）</string>
+    <string name="home_permission_all_files">所有文件访问权</string>
+    <string name="home_permission_usage">用量访问权（读取各应用缓存大小）</string>
+    <string name="home_permission_granted">已授予</string>
+    <string name="home_permission_missing">未授予</string>
+    <string name="home_permission_action">去授权文件权限</string>
+    <string name="home_permission_usage_action">去授权用量权限</string>
+
+    <!-- 扫描进度 -->
+    <string name="scan_progress_title">正在扫描</string>
+    <string name="scan_progress_phase">只读扫描中…</string>
+    <string name="scan_progress_readonly">扫描纯 dry-run 只读，不会删除任何文件</string>
+    <string name="scan_progress_found">已发现 %1$d 项</string>
+    <string name="scan_progress_cancel">取消扫描</string>
+    <string name="scan_progress_cancelled">扫描已取消</string>
+    <string name="scan_progress_go_result">查看扫描结果</string>
+
+    <!-- 扫描结果 -->
+    <string name="scan_result_title">扫描结果</string>
+    <string name="scan_result_l1">L1 · 安全项（默认勾选，一键直清）</string>
+    <string name="scan_result_l2">L2 · 需确认（默认全不勾）</string>
+    <string name="scan_result_l3">L3 · 已禁止（硬编码拦截）</string>
+    <string name="scan_result_report_only">仅报告（不删除）</string>
+    <string name="scan_result_total">合计可清理</string>
+    <string name="scan_result_selected">已选 %1$d 项，合计 %2$s</string>
+    <string name="scan_result_clean">清理选中项</string>
+    <string name="scan_result_deep_confirm">进入深度确认</string>
+    <string name="scan_result_empty">未发现可清理项</string>
+    <string name="scan_result_need_shizuku">深度清理需 Shizuku，请先完成绑定</string>
+    <string name="scan_result_base_hint">基础安全清扫无需 Shizuku，可直接一键清理</string>
+    <string name="scan_result_need_shizuku_item">需 Shizuku 深度权限（应用缓存 / 卸载残留 / 聊天附件）</string>
+    <string name="scan_result_shizuku_l1">L1 · Shizuku 深度缓存（可直接清，需 Shizuku）</string>
+
+    <!-- 扫描结果：三分区 Tab 与分组（第六轮反馈第 3、4 条） -->
+    <string name="scan_tab_local">免权限</string>
+    <string name="scan_tab_deep">需 Shizuku</string>
+    <string name="scan_tab_report">仅报告</string>
+    <string name="scan_tab_local_hint">这些项不需要 Shizuku，勾选后可直接清理；按类型分组，同类后果只说明一次</string>
+    <string name="scan_tab_deep_hint">应用缓存、卸载残留等需要 Shizuku 深度权限，必须逐项确认后才能删除</string>
+    <string name="scan_tab_report_hint">Download 大文件、旧 APK、超过 30 天的大文件索引恒为仅报告；L3 受保护路径已硬编码禁止。点任意一项可看完整路径</string>
+    <string name="scan_tab_local_empty">本机暂未发现可直接清理的项，可切到「需 Shizuku」查看深度项</string>
+    <string name="group_count_format">%1$d 项 · %2$s</string>
+    <string name="group_needs_shizuku">需 Shizuku</string>
+    <string name="item_last_modified">最后修改 %1$s · %2$s</string>
+    <string name="item_modified_days">最后修改 %1$s · 已 %2$d 天未改动</string>
+
+    <!-- 实际路径 / 文件位置（第七轮反馈第 3 条） -->
+    <string name="path_detail_title">实际路径 / 文件位置</string>
+    <string name="path_detail_type">类型</string>
+    <string name="path_detail_type_file">文件</string>
+    <string name="path_detail_type_dir">文件夹</string>
+    <string name="path_detail_type_unknown">—</string>
+    <string name="path_detail_size">大小</string>
+    <string name="path_detail_modified">最后修改</string>
+    <string name="path_detail_state">当前状态</string>
+    <string name="path_detail_probing">正在读取…</string>
+    <string name="path_detail_exists">存在，可正常访问</string>
+    <string name="path_detail_missing">已不存在（扫描之后被删除或移动）</string>
+    <string name="path_detail_unreadable">存在但无法列举（受系统保护）</string>
+    <string name="path_detail_children">存在，其中有 %1$d 个直接子项</string>
+    <string name="path_detail_mode">删除模式</string>
+    <string name="path_detail_mode_deletable">可删除（需你勾选确认）</string>
+    <string name="path_detail_mode_report">仅报告 / 索引，本应用不删除</string>
+    <string name="path_detail_mode_forbidden">已禁止，任何情况下不删除</string>
+    <string name="path_detail_full_path">完整路径（可长按选取）</string>
+    <string name="path_detail_copy">复制路径</string>
+    <string name="path_detail_copied">路径已复制</string>
+    <string name="path_detail_open">在文件管理器中打开</string>
+    <string name="path_detail_open_failed">无法直接打开文件管理器，请复制路径后手动查看</string>
+
+    <!-- 深度清理不可用：必须弹窗说明原因（第六轮反馈第 5 条） -->
+    <string name="deep_dialog_title">暂时无法进入深度清理</string>
+    <string name="deep_dialog_detail">最近一次绑定：%1$s</string>
+    <string name="deep_dialog_noop_hint">当前不会产生任何删除动作，可先去 Shizuku 设置查看具体卡在哪一步。</string>
+    <string name="deep_dialog_go">去 Shizuku 设置</string>
+    <string name="deep_deny_no_selection">请先在「需 Shizuku」页勾选要清理的项目，再进入深度确认。</string>
+    <string name="deep_deny_service_not_running">Shizuku 服务未运行：只安装 App 不够，需要在 Shizuku 里点「启动服务」。</string>
+    <string name="deep_deny_need_permission">尚未授权本应用：请在本页点「请求 Shizuku 权限」并允许。</string>
+    <string name="deep_deny_denied">Shizuku 授权被拒绝：请到 Shizuku 的「已授权应用」里恢复本应用，再回来刷新。</string>
+    <string name="deep_deny_lost">深度服务已掉线（fail-closed）：所有深度操作已中止，请点「重新绑定」恢复。</string>
+    <string name="deep_deny_binding">正在绑定深度服务（UserService 启动中），请稍等几秒再试。</string>
+    <string name="deep_deny_bind_failed">深度服务绑定失败：已发起请求但没有连上 UserService。</string>
+
+    <!-- 安全徽标 -->
+    <string name="badge_safe">安全</string>
+    <string name="badge_caution">需确认</string>
+    <string name="badge_forbidden">已禁止</string>
+    <string name="badge_report_only">仅报告</string>
+    <string name="badge_safe_hint">可一键直清</string>
+    <string name="badge_reason_forbidden">拦截原因：L3 硬编码禁止，App 与 UserService 双重校验</string>
+
+    <!-- 后果卡 -->
+    <string name="consequence_title">删除后会有什么后果</string>
+    <string name="consequence_recoverable">不可恢复（无回收站）</string>
+    <string name="consequence_impact">影响范围</string>
+
+    <!-- 深度确认页 -->
+    <string name="deep_confirm_title">深度清理确认</string>
+    <string name="deep_confirm_warning">以下项目删除后将永久丢失，且本应用无回收站</string>
+    <string name="deep_confirm_checkbox">我已知晓删除不可恢复</string>
+    <string name="deep_confirm_proceed">确认并删除</string>
+    <string name="deep_confirm_need_check">请先勾选「我已知晓删除不可恢复」</string>
+    <string name="deep_confirm_count">待删除 %1$d 项</string>
+    <string name="deep_confirm_shizuku_lost">Shizuku 已掉线，深度操作已中止（fail-closed）</string>
+
+    <!-- Shizuku 设置页 -->
+    <string name="shizuku_title">Shizuku 设置</string>
+    <string name="shizuku_status_label">当前状态</string>
+    <string name="shizuku_setup_steps_title">启动步骤</string>
+    <string name="shizuku_step1">1. 前提：Shizuku 服务已在运行（只安装 App 不够，必须在 Shizuku 里启动服务；诊断页显示「未检测到服务」即表示尚未启动）</string>
+    <string name="shizuku_step2">2. 回到本页请求授权，授权后自动绑定深度服务，无需手动点绑定</string>
+    <string name="shizuku_step3">3. 不开 Shizuku 也能用基础安全清扫；深度清理必须等服务显示「已就绪」</string>
+    <string name="shizuku_flyme">Flyme 提示：请在开发者选项中关闭「Flyme 支付保护」，否则授权 / 绑定可能失败</string>
+    <string name="shizuku_adb_restart">备注：通过 ADB / 无线调试启动的服务，每次手机重启后都需要重新启动；服务恢复后回首页刷新即自动重连</string>
+    <string name="shizuku_bind">绑定深度服务</string>
+    <string name="shizuku_unbind">解绑并销毁</string>
+    <string name="shizuku_request_permission">请求 Shizuku 权限</string>
+    <string name="shizuku_refresh">刷新状态</string>
+    <string name="shizuku_ready_hint">READY：可执行深度清理</string>
+    <string name="shizuku_fail_closed">掉线将立即中止所有深度操作（fail-closed）</string>
+    <string name="shizuku_last_bind_title">最近一次绑定结果</string>
+    <string name="shizuku_rebind">重新绑定</string>
+    <string name="shizuku_diagnose">一键诊断绑定</string>
+    <string name="shizuku_diagnose_result">诊断结果（可长按复制）</string>
+
+    <!-- 设置页 -->
+    <string name="settings_title">设置与白名单</string>
+    <string name="settings_theme_title">整体配色</string>
+    <string name="settings_theme_hint">色卡是「背景 + 按键」双层预览：外圈背景色、内圈主色。点一下立即生效，只存本机，不影响扫描与清理逻辑</string>
+    <string name="settings_theme_current">当前配色：%1$s</string>
+    <string name="settings_mode_title">明暗模式</string>
+    <string name="settings_mode_hint">深色模式会把整屏背景、卡片一起切到深色，而不是只换按钮颜色；默认跟随系统</string>
+    <string name="settings_whitelist_title">永不删除的路径（白名单）</string>
+    <string name="settings_whitelist_hint">deny 优先于 allow：即便规则命中，白名单路径也不会被删除</string>
+    <string name="settings_add">添加</string>
+    <string name="settings_remove">移除</string>
+    <string name="settings_empty">暂无白名单</string>
+    <string name="settings_probe_trim">实测 trim-caches 开关</string>
+    <string name="settings_probe_trim_desc">开启后在 UserService 内实测 trim-caches 并记录原始输出，失败自动回退</string>
+
+    <!-- 清理结果页 -->
+    <string name="clean_result_title">清理结果</string>
+    <string name="clean_result_deleted">已清理项 / 释放空间</string>
+    <string name="clean_result_capacity">可用空间变化</string>
+    <string name="clean_result_note">两者可能不相等：文件系统块分配、其他应用同时写入都会影响可用空间</string>
+    <string name="clean_result_stopped">已中止（连续删除失败 / 掉线保护）</string>
+    <string name="clean_result_batches">执行批次</string>
+    <string name="clean_result_empty_dirs">其中空目录</string>
+    <string name="clean_result_only_empty_dirs">本次清理的都是空目录，不占存储空间，所以释放 0 B。这是目录整理，不是清理失败。</string>
+    <string name="clean_result_deep_hint">真正占空间的是各应用缓存（Android/data 目录），按 Android 系统限制需要启动 Shizuku 服务后才能深度清理。</string>
+    <string name="clean_result_go_shizuku">去启动 Shizuku 解锁深度清理</string>
+    <string name="clean_result_failed">失败项</string>
+    <string name="clean_result_failed_hint">单项删除失败已跳过；仅连续多次真实执行失败才会中止</string>
+    <string name="clean_result_failed_reason">失败原因</string>
+    <string name="clean_result_skipped">安全跳过</string>
+    <string name="clean_result_skipped_hint">以上项因防误删策略主动放弃（如扫描后又写入了文件），不是失败，其余项照常清理</string>
+    <string name="clean_result_skipped_reason">跳过原因</string>
+    <string name="clean_result_guard_rejected">安全拦截</string>
+    <string name="clean_result_guard_hint">以上项被安全策略跳过，不影响其余项继续清理</string>
+    <string name="clean_result_guard_reason">拦截原因</string>
+    <string name="clean_result_done">完成</string>
+    <string name="clean_result_back_home">返回首页</string>
+
+    <!-- 关于页 -->
+    <string name="about_title">关于与许可</string>
+    <string name="about_version">版本</string>
+    <string name="about_license">开源许可</string>
+    <string name="about_license_body">自有代码 Apache-2.0；集成 Shizuku-API 13.1.5（MIT，© RikkaW）；AndroidX / Kotlin / Compose Apache-2.0。Shizuku Manager 仅运行时依赖，未分发。</string>
+    <string name="about_privacy">隐私</string>
+    <string name="about_privacy_body">无 INTERNET 权限、无网络、无广告、无统计 / 崩溃上报 SDK；删除日志与崩溃记录仅写入本机私有目录，不记录文件内容、不自动上传。仅在「测试诊断」页由你主动点击复制或分享并自行选择目标时，才会外发一份已脱敏的文本报告。</string>
+    <string name="about_three_level">三级安全模型</string>
+    <string name="about_three_level_body">L1 安全一键直清 / L2 需逐项确认 / L3 硬编码禁止；Download 大文件与旧 APK 恒为仅报告。</string>
+    <string name="about_nostore">定位</string>
+    <string name="about_nostore_body">个人自用 + GitHub Release 侧载；商店上架基本不可行，不承诺长期可安装性。</string>
+
+    <!-- 测试诊断页 -->
+    <string name="diag_title">测试诊断</string>
+    <string name="diag_entry">测试诊断</string>
+    <string name="diag_generate">一键生成报告</string>
+    <string name="diag_generating">正在汇总…</string>
+    <string name="diag_copy">复制报告</string>
+    <string name="diag_share">分享报告</string>
+    <string name="diag_share_chooser">发送诊断报告</string>
+    <string name="diag_share_subject">安卓垃圾清扫大师 诊断报告</string>
+    <string name="diag_section_report">报告内容（已脱敏）</string>
+    <string name="diag_note_label">补充说明</string>
+    <string name="diag_note_hint">复现步骤 / 期望结果 / 实际现象（会附在报告末尾）</string>
+    <string name="diag_empty">尚未生成报告，点「一键生成报告」开始</string>
+    <string name="diag_privacy_hint">报告已自动脱敏（隐藏文件名、应用包名与路径细节），含扫描分布计数、清理失败 / 安全跳过原因、最近一次清理摘要与文件系统实测结论，均不含任何路径；仅在你点击「复制」或「分享」后由你选择去向；本应用不自动上传、不联网。生成报告时会创建并立即删除一个 1 字节临时文件以测试写入权限。</string>
+
+    <!-- Shizuku 状态枚举 -->
+    <string name="status_not_installed">未安装 Shizuku</string>
+    <string name="status_not_running">服务未运行</string>
+    <string name="status_need_permission">需要授权</string>
+    <string name="status_ready">已就绪</string>
+    <string name="status_lost">已掉线（fail-closed）</string>
+    <string name="status_denied">权限被拒</string>
+    <string name="status_porter">备选桥接</string>
+
+    <!-- 风险等级 / 删除模式 -->
+    <string name="risk_l1">L1 安全</string>
+    <string name="risk_l2">L2 需确认</string>
+    <string name="risk_l3">L3 禁止</string>
+    <string name="mode_direct">一键直清</string>
+    <string name="mode_confirm">需确认</string>
+    <string name="mode_report_only">仅报告</string>
+    <string name="mode_forbidden">已禁止</string>
+</resources>
